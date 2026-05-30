@@ -314,7 +314,7 @@ tailwind.config = {
           <svg class="w-4 h-4 text-brand-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           Log friction as you go
         </h3>
-        <p class="mb-3">During each exercise, tap the green <span class="font-semibold text-white">Log friction</span> button in the bottom-right corner whenever something feels slow, confusing, repetitive, or just off. It follows you down the page, so you never have to stop and scroll to find it.</p>
+        <p class="mb-3">During each exercise, tap the green <span class="font-semibold text-white">Log friction</span> button in the bottom-right corner whenever something feels slow, confusing, repetitive, or just off.</p>
         <p class="mb-3">Keep notes short. A quick line is plenty, and don't worry about polish or whether someone already flagged the same thing. The more you capture in the moment, the better.</p>
         <p>Everything you log flows into the group debrief at the end, where the tool pulls the notes into themes and we decide together what to fix first.</p>
       </div>
@@ -1388,7 +1388,7 @@ Text STOP at any time to opt out</div></div>
             <div class="w-7 h-7 rounded-full bg-[#1E293B] text-white text-xs font-bold flex items-center justify-center shrink-0">3m</div>
             <div>
               <div class="text-sm font-semibold text-dark">Biggest opportunities</div>
-              <p class="text-xs text-[#6B7280]">As a group, agree on the two or three themes that matter most to fix first.</p>
+              <p class="text-xs text-[#6B7280]">Everyone votes on their phone for the themes to fix first (3 votes each). The tiles show the tally, so the room's priorities surface right in the tool.</p>
             </div>
           </div>
           <div class="flex items-start gap-4">
@@ -1419,6 +1419,12 @@ Text STOP at any time to opt out</div></div>
           <div class="text-[11px] font-bold text-[#94A3B8] tracking-[0.12em] uppercase mb-1.5">The big takeaway</div>
           <p id="recapTakeaway" class="text-white text-base sm:text-lg leading-relaxed font-medium outline-none" contenteditable="true" spellcheck="false"></p>
           <p class="text-[10px] text-[#64748B] mt-2 print-hide">Click to edit before you present.</p>
+        </div>
+
+        <!-- voting bar -->
+        <div id="voteBar" class="hidden mb-4 bg-brand-green-light border border-[#A7F3D0] rounded-lg px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+          <p class="text-sm text-[#065F46]">Tap <span class="font-semibold">Prioritize</span> on the themes you'd fix first. You get <span class="font-semibold">3 votes</span>.</p>
+          <span id="votesLeft" class="text-sm font-bold text-brand-green whitespace-nowrap">3 votes left</span>
         </div>
 
         <!-- theme cards -->
@@ -1936,6 +1942,66 @@ Text STOP at any time to opt out</div></div>
     }
     return scope === 'e1' ? 'other_e1' : 'other_e2';
   }
+  // ---- Dot-vote prioritization on debrief tiles (3 votes each). Votes ride the
+  // existing comms channel (Type '__vote__'), so no backend change is needed. ----
+  const MAX_VOTES = 3;
+  let voteTallies = {};   // voteKey -> count, from the shared log
+  function getMyVotes() { try { return JSON.parse(localStorage.getItem('tts_my_votes')) || []; } catch (e) { return []; } }
+  function setMyVotes(arr) { safeSetItem('tts_my_votes', JSON.stringify(arr)); }
+  function flashVotesLeft() {
+    const el = document.getElementById('votesLeft'); if (!el) return;
+    el.classList.add('text-[#DC2626]'); setTimeout(() => el.classList.remove('text-[#DC2626]'), 900);
+  }
+  function castVote(key) {
+    if (!participant.name) { showIdentityModal(); return; }
+    let my = getMyVotes(); let on;
+    if (my.indexOf(key) !== -1) { my = my.filter(k => k !== key); on = false; voteTallies[key] = Math.max(0, (voteTallies[key] || 0) - 1); }
+    else if (my.length < MAX_VOTES) { my.push(key); on = true; voteTallies[key] = (voteTallies[key] || 0) + 1; }
+    else { flashVotesLeft(); return; }
+    setMyVotes(my);
+    renderVoteUI();
+    sendData({ action: 'submitComms', participant: participant.name, commType: '__vote__', text: key + '|' + (on ? '1' : '0') + '|' + Date.now() });
+  }
+  async function loadVoteTallies() {
+    const rows = await getFromBackend('getComms');
+    const latest = {};
+    (Array.isArray(rows) ? rows : []).forEach(r => {
+      if ((r.Type || '') !== '__vote__') return;
+      const parts = String(r.Text || '').split('|'); const key = parts[0]; const on = parts[1] === '1';
+      const seq = Number(parts[2] || 0);   // client click time, so order reflects the voter's intent, not network arrival
+      const who = (r.Participant || '').trim();
+      const k = who + '||' + key;
+      if (!latest[k] || seq >= latest[k].seq) latest[k] = { seq, on, key };
+    });
+    const tallies = {};
+    Object.keys(latest).forEach(k => { const v = latest[k]; if (v.on) tallies[v.key] = (tallies[v.key] || 0) + 1; });
+    voteTallies = tallies;
+    renderVoteUI();
+  }
+  function renderVoteUI() {
+    const my = getMyVotes();
+    const left = MAX_VOTES - my.length;
+    const ind = document.getElementById('votesLeft');
+    if (ind) ind.textContent = left + (left === 1 ? ' vote left' : ' votes left');
+    let maxTally = 0;
+    Object.keys(voteTallies).forEach(k => { if (voteTallies[k] > maxTally) maxTally = voteTallies[k]; });
+    document.querySelectorAll('[data-vote-tally]').forEach(s => {
+      const key = s.getAttribute('data-vote-tally'); const n = voteTallies[key] || 0;
+      const isTop = n > 0 && n === maxTally;
+      s.textContent = (isTop ? '★ ' : '') + n + (n === 1 ? ' vote' : ' votes');
+      s.className = 'text-xs font-medium ' + (isTop ? 'text-brand-green font-bold' : 'text-[#6B7280]');
+      const card = s.closest('.recap-theme-card'); if (card) card.style.boxShadow = isTop ? '0 0 0 2px #00B373' : '';
+    });
+    document.querySelectorAll('[data-vote-btn]').forEach(btn => {
+      const key = btn.getAttribute('data-vote-btn'); const voted = my.indexOf(key) !== -1; const noBudget = !voted && left <= 0;
+      btn.textContent = voted ? '✓ Prioritized' : '▲ Prioritize';
+      btn.className = 'vote-btn text-xs font-semibold px-3 py-1.5 rounded-full border cursor-pointer ' +
+        (voted ? 'border-brand-green bg-brand-green text-white'
+               : noBudget ? 'border-[#E5E7EB] bg-white text-[#9CA3AF] cursor-not-allowed'
+                          : 'border-brand-green bg-white text-brand-green');
+    });
+  }
+
   function buildRecap(entries) {
     const map = {}; // themeId -> {def, entries:[]}
     const defById = {}; RECAP_THEMES.forEach(t => defById[t.id] = t);
@@ -1994,6 +2060,7 @@ Text STOP at any time to opt out</div></div>
           : '<p class="text-[#6B7280] text-xs">No friction entries found yet. Make sure participants have submitted entries during the exercises.</p>';
       countBox.classList.add('hidden');
       document.getElementById('recapTakeawayWrap').classList.add('hidden');
+      { const vb = document.getElementById('voteBar'); if (vb) vb.classList.add('hidden'); }
       document.getElementById('presentBtn').disabled = true;
       rawEl.innerHTML = '';
       btn.textContent = 'Refresh from shared log'; btn.disabled = false;
@@ -2030,9 +2097,14 @@ Text STOP at any time to opt out</div></div>
       const card = document.createElement('div');
       card.className = 'recap-theme-card bg-white border border-[#E5E7EB] rounded-lg p-5';
       card.style.borderLeft = '4px solid ' + accent;
-      card.innerHTML = `<div class="flex items-start justify-between gap-3"><h4 class="font-bold text-dark text-[16px]">${esc(t.label)}</h4><span class="${chip} text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap">Flagged by ${t.count}</span></div>${quotes}`;
+      const vkey = t.scope + '::' + t.id;
+      card.innerHTML = `<div class="flex items-start justify-between gap-3"><h4 class="font-bold text-dark text-[16px]">${esc(t.label)}</h4><span class="${chip} text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap">Flagged by ${t.count}</span></div>${quotes}<div class="mt-3 pt-3 border-t border-[#E5E7EB] flex items-center justify-between gap-3"><button type="button" data-vote-btn="${vkey}" onclick="castVote('${vkey}')" class="vote-btn text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-green bg-white text-brand-green cursor-pointer">&#9650; Prioritize</button><span data-vote-tally="${vkey}" class="text-xs font-medium text-[#6B7280]">0 votes</span></div>`;
       themesEl.querySelector(`[data-scope="${t.scope}"]`).appendChild(card);
     });
+
+    // Voting (dot-vote prioritization): reveal the bar and pull current tallies
+    document.getElementById('voteBar').classList.remove('hidden');
+    loadVoteTallies();
 
     // Slides for present mode (intro takeaway slide + one per theme)
     RECAP_SLIDES = [{ intro: true, text: document.getElementById('recapTakeaway').textContent }]
