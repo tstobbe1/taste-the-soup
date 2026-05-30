@@ -257,21 +257,6 @@ tailwind.config = {
     </div>
 
     <div class="px-5 sm:px-8 lg:px-12 py-6 lg:py-8 max-w-5xl">
-      <!-- What's different -->
-      <div class="bg-white border border-[#E5E7EB] rounded-lg p-6 mb-6">
-        <h2 class="text-lg font-bold text-dark mb-4">What's different this time</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div class="text-center">
-            <div class="text-3xl font-bold text-brand-blue mb-1">27</div>
-            <div class="text-xs text-[#6B7280] font-medium">Fewer attendees, tighter group</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl font-bold text-brand-blue mb-1">2</div>
-            <div class="text-xs text-[#6B7280] font-medium">Focused exercises, not four breakouts</div>
-          </div>
-        </div>
-      </div>
-
       <!-- Format overview -->
       <div class="bg-white border border-[#E5E7EB] rounded-lg p-6 mb-6">
         <h2 class="text-lg font-bold text-dark mb-4">Session format: Two-group rotation</h2>
@@ -314,12 +299,24 @@ tailwind.config = {
         </div>
       </div>
 
-      <!-- Why these two -->
+      <!-- The two exercises (what they are) -->
+      <div class="bg-white border border-[#E5E7EB] rounded-lg p-6 mb-6">
+        <h2 class="text-lg font-bold text-dark mb-4">The two exercises</h2>
+        <div class="space-y-4 text-sm text-[#374151] leading-relaxed">
+          <p><span class="text-brand-green font-semibold">Offers Secret Shop.</span> You're the customer. Submit an Offers inquiry, listen to a recorded Home Concierge call, and watch the texts, calls, and emails that fire over the next few hours.</p>
+          <p><span class="text-brand-green font-semibold">Portal Updates.</span> You're the agent. Log into a test agent's portal and enter status updates on a stack of deals, the way our agents do every week.</p>
+        </div>
+      </div>
+
+      <!-- Logging instructions -->
       <div class="bg-[#1E293B] rounded-lg p-6 mb-6 text-[#E2E8F0] text-sm leading-relaxed">
-        <h3 class="text-white font-semibold mb-3">Why these two exercises?</h3>
-        <p class="mb-3">We looked at outcomes from every past Taste the Soup session. The pattern: exercises where leaders experience the product firsthand produce the most actionable findings. Individual deep-dive audits consistently uncovered more than group reviews of data.</p>
-        <p class="mb-3"><span class="text-[#00B373] font-semibold">Offers Secret Shop</span> puts you in the customer's seat. You'll experience the Offers inquiry flow, hear an HC call, and see what automated communications fire and when. Previous sessions uncovered significant timing and messaging conflicts in this flow. We want to see where things stand now.</p>
-        <p><span class="text-[#00B373] font-semibold">Portal Updates</span> puts you in the agent's seat. Portal updates are a known friction point, and improving the update experience is something we'll be prioritizing. This is a chance for every leader to feel firsthand what the update process is actually like, so we're all informed when we start making changes.</p>
+        <h3 class="text-white font-semibold mb-3 flex items-center gap-2">
+          <svg class="w-4 h-4 text-brand-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          Log friction as you go
+        </h3>
+        <p class="mb-3">During each exercise, tap the green <span class="font-semibold text-white">Log friction</span> button in the bottom-right corner whenever something feels slow, confusing, repetitive, or just off. It follows you down the page, so you never have to stop and scroll to find it.</p>
+        <p class="mb-3">Keep notes short. A quick line is plenty, and don't worry about polish or whether someone already flagged the same thing. The more you capture in the moment, the better.</p>
+        <p>Everything you log flows into the group debrief at the end, where the tool pulls the notes into themes and we decide together what to fix first.</p>
       </div>
 
       <!-- Timing overview -->
