@@ -93,6 +93,18 @@ tailwind.config = {
 </head>
 <body>
 
+<!-- ACCESS CODE GATE (shown before everything; client-side speed-bump access control) -->
+<div id="gateOverlay" class="fixed inset-0 z-[110] bg-[#161E26] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <div class="bg-white rounded-2xl shadow-xl max-w-sm w-full p-7 text-center">
+    <div class="text-xs font-bold text-brand-blue tracking-[0.12em] uppercase mb-2">Taste the Soup</div>
+    <h2 id="gateTitle" class="text-xl font-bold text-dark mb-1">Enter access code</h2>
+    <p class="text-sm text-[#6B7280] mb-5">Your facilitator will share the code for this session.</p>
+    <input type="text" id="gateInput" autocomplete="off" autocapitalize="off" placeholder="Access code" class="w-full px-3 py-2.5 border-2 border-[#E5E7EB] rounded-lg text-sm text-center focus:outline-none focus:border-brand-blue mb-2" onkeydown="if(event.key==='Enter'){event.preventDefault();checkGate();}" aria-label="Access code">
+    <p id="gateError" class="text-xs text-[#DC2626] mb-3 h-4" role="alert"></p>
+    <button onclick="checkGate()" class="w-full bg-brand-blue hover:bg-brand-blue-hover text-white font-semibold text-sm py-3 rounded-lg border-none cursor-pointer transition-colors">Enter</button>
+  </div>
+</div>
+
 <!-- PARTICIPANT IDENTITY MODAL -->
 <div id="identityModal" class="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4" style="display:none" role="dialog" aria-modal="true" aria-labelledby="identityModalTitle">
   <div class="bg-white rounded-xl shadow-xl p-6 sm:p-8 w-[420px] max-w-full">
@@ -1449,6 +1461,32 @@ Text STOP at any time to opt out</div></div>
   let participant = { name: '', group: '' };
   let lastFocusBeforeModal = null;
 
+  // ---- Access code gate (client-side speed bump; the code is visible in this
+  // file, so it deters casual access but is not cryptographic protection) ----
+  const ACCESS_CODE = 'soup2026';   // <-- change this to your session code
+  const GATE_KEY = 'tts_gate_ok';
+  function initGate() {
+    const ov = document.getElementById('gateOverlay');
+    if (!ov) return;
+    if (localStorage.getItem(GATE_KEY) === ACCESS_CODE) { ov.style.display = 'none'; return; }
+    ov.style.display = 'flex';
+    const inp = document.getElementById('gateInput');
+    if (inp) setTimeout(() => inp.focus(), 50);
+  }
+  function checkGate() {
+    const inp = document.getElementById('gateInput');
+    const err = document.getElementById('gateError');
+    if ((inp.value || '').trim().toLowerCase() === ACCESS_CODE.toLowerCase()) {
+      try { localStorage.setItem(GATE_KEY, ACCESS_CODE); } catch (e) {}
+      document.getElementById('gateOverlay').style.display = 'none';
+      const name = document.getElementById('identityName');
+      if (name && document.getElementById('identityModal').style.display !== 'none') setTimeout(() => name.focus(), 50);
+    } else {
+      err.textContent = 'That code is not right. Try again.';
+      inp.select();
+    }
+  }
+
   // ---- Participant Identity ----
   function initIdentity() {
     const saved = localStorage.getItem('tts_participant');
@@ -2092,6 +2130,7 @@ Text STOP at any time to opt out</div></div>
   }
 
   // ---- Init ----
+  initGate();
   initIdentity();
   restoreAllLocalHistory();
   renderCommsLog();
