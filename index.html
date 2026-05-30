@@ -93,6 +93,32 @@ tailwind.config = {
 </head>
 <body>
 
+<!-- FLOATING FRICTION LOGGER (always available during exercises; reuses the friction pipeline) -->
+<div id="frictionFab" class="fixed bottom-5 right-5 z-[80] flex-col items-end no-print" style="display:none">
+  <div id="frictionFabPanel" class="hidden mb-3 w-[330px] max-w-[calc(100vw-2.5rem)] bg-white rounded-2xl shadow-2xl border border-[#E5E7EB] overflow-hidden">
+    <div class="flex items-center justify-between px-4 py-3 bg-brand-green text-white">
+      <span class="text-sm font-semibold flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        Log friction
+      </span>
+      <button onclick="toggleFrictionFab(false)" aria-label="Close friction logger" class="text-white text-xl leading-none bg-transparent border-none cursor-pointer opacity-90 hover:opacity-100">&times;</button>
+    </div>
+    <div class="p-4">
+      <p id="frictionFabContext" class="text-[11px] text-[#6B7280] mb-2"></p>
+      <textarea id="frictionInput-float" class="friction-log mb-2" placeholder="What friction did you notice?" aria-label="Log friction" onkeydown="floatKeydown(event)"></textarea>
+      <div class="flex items-center justify-between">
+        <span id="frictionStatus-float" class="text-[10px] text-[#6B7280]" role="status" aria-live="polite"></span>
+        <button onclick="submitFloatFriction()" class="bg-brand-green hover:bg-brand-green-hover text-white font-semibold text-xs px-4 py-2 rounded-md border-none cursor-pointer">Submit</button>
+      </div>
+      <div id="frictionHistory-float" class="mt-3 space-y-2 max-h-44 overflow-y-auto"></div>
+    </div>
+  </div>
+  <button onclick="toggleFrictionFab()" aria-label="Log friction" class="flex items-center gap-2 bg-brand-green hover:bg-brand-green-hover text-white font-semibold text-sm pl-4 pr-5 py-3 rounded-full shadow-lg border-none cursor-pointer">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+    <span>Log friction</span>
+  </button>
+</div>
+
 <!-- ACCESS CODE GATE (shown before everything; client-side speed-bump access control) -->
 <div id="gateOverlay" class="fixed inset-0 z-[110] bg-[#161E26] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
   <div class="bg-white rounded-2xl shadow-xl max-w-sm w-full p-7 text-center">
@@ -1574,6 +1600,7 @@ Text STOP at any time to opt out</div></div>
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     const navBtn = document.querySelector(`.nav-item[data-screen="${id}"]`);
     if (navBtn) navBtn.classList.add('active');
+    updateFrictionFab(id);
     window.scrollTo(0, 0);
   }
 
@@ -1730,6 +1757,54 @@ Text STOP at any time to opt out</div></div>
   }
 
   // ---- Friction Log: keyboard handling (Enter or Cmd/Ctrl+Enter submits, Shift+Enter = newline) ----
+  // ---- Floating friction logger: tags entries to the current exercise screen
+  // and reuses submitFriction's hardened submit/dedupe/queue pipeline ----
+  const FRICTION_CONTEXT = {
+    'ex1-part1': ['ex1p1', 'Exercise 1, Part 1', 'Live AutoHunt'],
+    'ex1-part2': ['ex1p2', 'Exercise 1, Part 2', 'The Call'],
+    'ex2': ['ex2', 'Exercise 2', 'Portal Updates'],
+    'ex2-hands-on': ['ex2', 'Exercise 2', 'Portal Updates'],
+    'ex2-cheatsheet-a': ['ex2', 'Exercise 2', 'Portal Updates'],
+    'ex2-cheatsheet-b': ['ex2', 'Exercise 2', 'Portal Updates'],
+  };
+  let floatCtx = null;
+  function updateFrictionFab(id) {
+    const fab = document.getElementById('frictionFab');
+    if (!fab) return;
+    floatCtx = FRICTION_CONTEXT[id] || null;
+    if (floatCtx) {
+      fab.style.display = 'flex';
+    } else {
+      fab.style.display = 'none';
+      const panel = document.getElementById('frictionFabPanel');
+      if (panel) panel.classList.add('hidden');
+    }
+  }
+  function toggleFrictionFab(open) {
+    const panel = document.getElementById('frictionFabPanel');
+    if (!panel) return;
+    const willOpen = (open === undefined) ? panel.classList.contains('hidden') : open;
+    if (willOpen) {
+      const ctxEl = document.getElementById('frictionFabContext');
+      if (ctxEl) ctxEl.textContent = floatCtx ? ('Logging to ' + floatCtx[1] + ' · ' + floatCtx[2]) : '';
+      panel.classList.remove('hidden');
+      const t = document.getElementById('frictionInput-float');
+      if (t) setTimeout(() => t.focus(), 50);
+    } else {
+      panel.classList.add('hidden');
+    }
+  }
+  function floatKeydown(e) {
+    if (e.key !== 'Enter') return;
+    if (e.shiftKey && !(e.metaKey || e.ctrlKey)) return;
+    e.preventDefault();
+    submitFloatFriction();
+  }
+  function submitFloatFriction() {
+    if (!floatCtx) return;
+    submitFriction('float', floatCtx[1], floatCtx[2]);
+  }
+
   function frictionKeydown(e, inputId, exercise, section) {
     if (e.key !== 'Enter') return;
     if (e.shiftKey && !(e.metaKey || e.ctrlKey)) return; // Shift+Enter inserts a newline
@@ -1802,7 +1877,7 @@ Text STOP at any time to opt out</div></div>
     else { badge.classList.add('hidden'); }
   }
   function restoreAllLocalHistory() {
-    ['ex1p1', 'ex1p2', 'ex2', 'ex2a', 'ex2b'].forEach(renderLocalHistory);
+    ['ex1p1', 'ex1p2', 'ex2', 'ex2a', 'ex2b', 'float'].forEach(renderLocalHistory);
   }
 
   const EXERCISE_ORDER = ['Exercise 1, Part 1', 'Exercise 1, Part 2', 'Exercise 2'];
@@ -2136,6 +2211,7 @@ Text STOP at any time to opt out</div></div>
   renderCommsLog();
   renderActionItems();
   updateOfflineBanner();
+  { const a = document.querySelector('.screen.active'); if (a) updateFrictionFab(a.id.replace('screen-','')); }
   pruneQueue();   // drop anything stale from a previous day before we try to flush
   flushQueue();   // retry anything left from earlier this session
   // Surface a clear warning on the debrief if the shared backend isn't wired up.
