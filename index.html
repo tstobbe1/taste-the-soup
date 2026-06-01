@@ -41,6 +41,18 @@ tailwind.config = {
   .timer-pulse { animation: pulse-ring 2s infinite; }
   .friction-log { width: 100%; min-height: 100px; padding: 12px; border: 2px solid #E5E7EB; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 13px; color: #161E26; resize: vertical; transition: border-color 0.15s ease; letter-spacing: -0.02em; }
   .friction-log:focus { outline: none; border-color: #0075EB; }
+
+  /* ---- Friction attachments (screenshots + files) ---- */
+  .tts-attach-btn { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:600; color:#374151; background:#F3F4F6; border:1px solid #E5E7EB; border-radius:6px; padding:6px 10px; cursor:pointer; transition:background .15s ease; }
+  .tts-attach-btn:hover { background:#E5E7EB; }
+  .tts-attach-btn svg { width:14px; height:14px; }
+  .tts-attach-preview { display:flex; flex-wrap:wrap; gap:8px; }
+  .tts-thumb { position:relative; width:56px; height:56px; border-radius:8px; overflow:hidden; border:1px solid #E5E7EB; background:#F9FAFB; flex:0 0 auto; }
+  .tts-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .tts-thumb-x { position:absolute; top:2px; right:2px; width:18px; height:18px; min-height:18px; border-radius:9999px; background:rgba(22,30,38,0.85); color:#fff; border:none; font-size:12px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; }
+  .tts-file-chip { display:flex; align-items:center; justify-content:center; width:100%; height:100%; font-size:9px; font-weight:700; color:#6B7280; text-align:center; padding:2px; word-break:break-all; }
+  .tts-hist-thumb { width:48px; height:48px; border-radius:6px; overflow:hidden; border:1px solid #E5E7EB; display:inline-flex; vertical-align:top; }
+  .tts-hist-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
   .stage-pill { display: inline-block; padding: 3px 10px; border-radius: 9999px; font-size: 11px; font-weight: 600; }
   .tab-btn { padding: 8px 16px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; border-radius: 6px 6px 0 0; transition: all 0.15s; }
   .tab-btn.active { background: white; color: #0075EB; border-bottom: 2px solid #0075EB; }
@@ -644,7 +656,7 @@ tailwind.config = {
         <p class="text-sm text-[#6B7280] mb-5">Every touchpoint the customer (Sam) got after one Offers inquiry, in order, as it landed on the test phone. Property: 1308 Tawny View Lane, Raleigh NC.</p>
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          <div class="rounded-lg p-4 text-center" style="background:#F9FAFB;border:1px solid #E5E7EB"><div class="text-2xl font-bold mb-1" style="color:#161E26">5h 16m</div><div class="text-xs text-[#6B7280] font-medium">12:48 PM to 6:04 PM</div></div><div class="rounded-lg p-4 text-center" style="background:#FEF2F2;border:1px solid #FECACA"><div class="text-2xl font-bold mb-1" style="color:#DC2626">10</div><div class="text-xs text-[#6B7280] font-medium">Spark Capital calls, 9 with no voicemail</div></div><div class="rounded-lg p-4 text-center" style="background:#F9FAFB;border:1px solid #E5E7EB"><div class="text-2xl font-bold mb-1" style="color:#161E26">8</div><div class="text-xs text-[#6B7280] font-medium">Texts received</div></div><div class="rounded-lg p-4 text-center" style="background:#F9FAFB;border:1px solid #E5E7EB"><div class="text-2xl font-bold mb-1" style="color:#161E26">2 + 2</div><div class="text-xs text-[#6B7280] font-medium">Agents and investors looped in</div></div>
+          <div class="rounded-lg p-4 text-center" style="background:#F9FAFB;border:1px solid #E5E7EB"><div class="text-2xl font-bold mb-1" style="color:#161E26">5h 16m</div><div class="text-xs text-[#6B7280] font-medium">12:48 PM to 6:04 PM</div></div><div class="rounded-lg p-4 text-center" style="background:#F9FAFB;border:1px solid #E5E7EB"><div class="text-2xl font-bold mb-1" style="color:#161E26">10</div><div class="text-xs text-[#6B7280] font-medium">Calls from Spark Capital, 1 with a voicemail</div></div><div class="rounded-lg p-4 text-center" style="background:#F9FAFB;border:1px solid #E5E7EB"><div class="text-2xl font-bold mb-1" style="color:#161E26">8</div><div class="text-xs text-[#6B7280] font-medium">Texts received</div></div><div class="rounded-lg p-4 text-center" style="background:#F9FAFB;border:1px solid #E5E7EB"><div class="text-2xl font-bold mb-1" style="color:#161E26">2 + 2</div><div class="text-xs text-[#6B7280] font-medium">Agents and investors looped in</div></div>
         </div>
 
         <div class="space-y-0">
@@ -978,7 +990,7 @@ Text STOP at any time to opt out</div></div>
                 <span class="text-xs text-[#6B7280] font-mono">6:04 PM</span>
                 <span class="text-sm font-semibold text-dark">10th call from Spark</span>
               </div>
-              <p class="text-xs text-[#6B7280]">Finally a voicemail, after nine calls with none: "This is Kate with Spark Capital USA calling about the property on Tawnyview Lane. Give me a call back when you get a chance. Thanks."</p>
+              <p class="text-xs text-[#6B7280]">Voicemail left: "This is Kate with Spark Capital USA calling about the property on Tawnyview Lane. Give me a call back when you get a chance. Thanks."</p>
             </div>
           </div>
         </div>
@@ -990,19 +1002,19 @@ Text STOP at any time to opt out</div></div>
         <div class="space-y-3">
           <div class="flex items-start gap-3 p-3 bg-[#F9FAFB] rounded-lg">
             <span class="text-brand-blue font-bold text-sm mt-0.5">Q1</span>
-            <p class="text-sm text-[#374151]">If you were Sam, at what point would you feel confused or overwhelmed?</p>
+            <p class="text-sm text-[#374151]">Walk the timeline as Sam. Which moments stand out to you, and why?</p>
           </div>
           <div class="flex items-start gap-3 p-3 bg-[#F9FAFB] rounded-lg">
             <span class="text-brand-blue font-bold text-sm mt-0.5">Q2</span>
-            <p class="text-sm text-[#374151]">Ten calls from one investor, nine of them with no voicemail and the only message coming on the tenth try, plus calls from numbers we don't have on file. What does that do to trust in Clever?</p>
+            <p class="text-sm text-[#374151]">What patterns do you notice in the volume and timing of the calls and texts Sam received? How might different customers react?</p>
           </div>
           <div class="flex items-start gap-3 p-3 bg-[#F9FAFB] rounded-lg">
             <span class="text-brand-blue font-bold text-sm mt-0.5">Q3</span>
-            <p class="text-sm text-[#374151]">The texts say "Hi Sam ?" with a broken name, and "??:" before phone numbers. How many of these did a human ever look at?</p>
+            <p class="text-sm text-[#374151]">Look at how the messages are formatted (for example, "Hi Sam ?" and "??:" before phone numbers). What do you notice?</p>
           </div>
           <div class="flex items-start gap-3 p-3 bg-[#F9FAFB] rounded-lg">
             <span class="text-brand-blue font-bold text-sm mt-0.5">Q4</span>
-            <p class="text-sm text-[#374151]">What is the gap between what Kisha set up on the call and what actually reached the customer over the next five hours?</p>
+            <p class="text-sm text-[#374151]">Compare what Kisha set up on the call with what reached the customer over the next five hours. What stands out?</p>
           </div>
         </div>
       </div>
@@ -1018,7 +1030,7 @@ Text STOP at any time to opt out</div></div>
           <li class="flex items-start gap-2"><span class="text-[#B45309] font-bold mt-0.5">&middot;</span><span>The same broken "?" showed up in the drip texts where the customer's name should be. You can see it all over the messages above too ("Hi Sam ?").</span></li>
           <li class="flex items-start gap-2"><span class="text-[#B45309] font-bold mt-0.5">&middot;</span><span>I heard about investors on the HC call, but I never got matched with one. Dillon's HubSpot record shows zero investors connected. Drake and Mike confirmed one investor did pop for the address, but the home was over that investor's max home value (outside their buy box), so no match ever came through.</span></li>
           <li class="flex items-start gap-2"><span class="text-[#B45309] font-bold mt-0.5">&middot;</span><span>I got connected with two agents. One reached me by live transfer. The other never called and finally texted at 9:30 at night.</span></li>
-          <li class="flex items-start gap-2"><span class="text-[#B45309] font-bold mt-0.5">&middot;</span><span>The live-transfer agent led with the numbers: what the home was worth, how much I owed, and basically that a cash offer would not work because I would not net enough to pay off what I owe. He did push for an appointment, but only after delivering that bad news, and I left the call feeling deflated. That is the opposite of Addie in the second shop, who crushed the call and led with getting an appointment so they could walk through everything together.</span></li>
+          <li class="flex items-start gap-2"><span class="text-[#B45309] font-bold mt-0.5">&middot;</span><span>The live-transfer agent opened with the numbers: the home's estimated value, the balance owed, and that a cash offer likely would not net enough to cover that balance. He asked for an appointment after sharing those numbers. In the second shop, Addie set up an appointment first and planned to walk through the details together. The two calls sequenced the conversation in opposite orders.</span></li>
         </ul>
       </div>
 
@@ -1728,7 +1740,9 @@ Text STOP at any time to opt out</div></div>
   // ============================================================
   // BACKEND: Google Sheets via Apps Script
   // ============================================================
-  const esc = text => String(text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  // Escape for safe interpolation into both text nodes and double/single-quoted
+  // attributes. Ampersand first so we don't double-escape the entities we add.
+  const esc = text => String(text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   const QUEUE_KEY = 'tts_pending_queue';
   const MAX_QUEUE_AGE_MS = 18 * 60 * 60 * 1000; // drop queued entries older than ~18h (well past the session)
 
@@ -1770,14 +1784,14 @@ Text STOP at any time to opt out</div></div>
   function getQueue() {
     try { return JSON.parse(localStorage.getItem(QUEUE_KEY)) || []; } catch (e) { return []; }
   }
-  function saveQueue(q) { safeSetItem(QUEUE_KEY, JSON.stringify(q)); }
+  function saveQueue(q) { return safeSetItem(QUEUE_KEY, JSON.stringify(q)); }
   function pruneQueue() {
     const now = Date.now();
     const q = getQueue().filter(item => item && item.queuedAt && (now - item.queuedAt) < MAX_QUEUE_AGE_MS);
     saveQueue(q);
     return q;
   }
-  function queueEntry(data) { const q = getQueue(); q.push({ queuedAt: Date.now(), data }); saveQueue(q); updateOfflineBanner(); }
+  function queueEntry(data) { const q = getQueue(); q.push({ queuedAt: Date.now(), data }); const ok = saveQueue(q); updateOfflineBanner(); return ok; }
 
   // Send to backend; on failure, queue locally for later retry. Returns the backend result.
   async function sendData(data) {
@@ -1785,7 +1799,7 @@ Text STOP at any time to opt out</div></div>
     const result = await postToBackend(data);
     // Local-only mode (no backend configured): nothing to queue or sync.
     if (result && result.offline) return result;
-    if (result && result.error) { queueEntry(data); return { queued: true }; }
+    if (result && result.error) { const persisted = queueEntry(data); return { queued: true, persisted: persisted }; }
     // Success: opportunistically flush anything queued from earlier failures.
     await flushQueue();
     return result;
@@ -1910,11 +1924,170 @@ Text STOP at any time to opt out</div></div>
     submitFriction(inputId, exercise, section);
   }
 
+  // ---- Friction Log: attachments (screenshots + files) ----
+  // Each logger gets an "Add screenshot or file" button + paste support, injected
+  // on init. Images are resized/compressed client-side so they stay small over
+  // conference wifi; files ride along as base64 and the backend saves them to Drive.
+  const MAX_ATTACHMENTS = 2;              // kept low so a burst of photo uploads doesn't stall the shared sheet
+  const ATTACH_MAX_DIM = 1400;            // longest edge after resize (px)
+  const ATTACH_JPEG_QUALITY = 0.7;
+  const ATTACH_MAX_RAW_BYTES = 4 * 1024 * 1024;   // reject non-image files over ~4 MB
+  const ATTACH_MAX_IMAGE_BYTES = 2 * 1024 * 1024; // reject an image still over ~2 MB after compression (e.g. undecodable HEIC)
+  const ACCEPT_TYPES = 'image/*,.pdf,.doc,.docx,.txt,.csv,.xls,.xlsx';
+  const pendingAttachments = {};          // inputId -> [{ name, type, isImage, dataUrl, size }]
+
+  function dataUrlBytes(dataUrl) { const i = (dataUrl || '').indexOf(','); return i < 0 ? 0 : Math.floor((dataUrl.length - i - 1) * 3 / 4); }
+
+  function readFileAsDataUrl(file) {
+    return new Promise(resolve => { const r = new FileReader(); r.onload = e => resolve(e.target.result); r.onerror = () => resolve(null); r.readAsDataURL(file); });
+  }
+  // Resize to ATTACH_MAX_DIM and re-encode as JPEG. Falls back to the raw data URL
+  // if the browser can't decode the image (e.g. some HEIC) so nothing is silently lost.
+  function compressImage(file) {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const raw = e.target.result;
+        const img = new Image();
+        img.onload = () => {
+          let w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+          const scale = Math.min(1, ATTACH_MAX_DIM / Math.max(w, h));
+          w = Math.round(w * scale); h = Math.round(h * scale);
+          try {
+            const c = document.createElement('canvas'); c.width = w; c.height = h;
+            c.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(c.toDataURL('image/jpeg', ATTACH_JPEG_QUALITY));
+          } catch (err) { resolve(raw); }
+        };
+        img.onerror = () => resolve(raw);
+        img.src = raw;
+      };
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function setAttachMsg(inputId, text, isError) {
+    const el = document.getElementById('frictionAttachMsg-' + inputId);
+    if (!el) return;
+    el.textContent = text || '';
+    el.className = 'text-[10px] ' + (isError ? 'text-[#DC2626]' : 'text-[#6B7280]');
+    if (text) setTimeout(() => { if (el.textContent === text) el.textContent = ''; }, 4000);
+  }
+
+  async function addFilesToPending(inputId, fileList) {
+    const files = Array.from(fileList || []);
+    if (!files.length) return;
+    const bucket = pendingAttachments[inputId] || (pendingAttachments[inputId] = []);
+    let added = 0, skipped = 0;
+    for (const file of files) {
+      if (bucket.length >= MAX_ATTACHMENTS) { setAttachMsg(inputId, 'Up to ' + MAX_ATTACHMENTS + ' attachments per note.', true); break; }
+      const isImg = /^image\//.test(file.type || '');
+      let dataUrl = null;
+      if (isImg) {
+        dataUrl = await compressImage(file);
+        if (dataUrl && dataUrlBytes(dataUrl) > ATTACH_MAX_IMAGE_BYTES) {
+          setAttachMsg(inputId, "Couldn't process " + (file.name || 'that image') + ' (try a screenshot instead).', true); skipped++; continue;
+        }
+      } else {
+        if ((file.size || 0) > ATTACH_MAX_RAW_BYTES) { setAttachMsg(inputId, (file.name || 'That file') + ' is too large (max 4 MB).', true); skipped++; continue; }
+        dataUrl = await readFileAsDataUrl(file);
+      }
+      if (!dataUrl) { setAttachMsg(inputId, "Couldn't read " + (file.name || 'that file') + '.', true); skipped++; continue; }
+      bucket.push({ name: file.name || 'attachment', type: file.type || 'application/octet-stream', isImage: isImg, dataUrl: dataUrl, size: dataUrlBytes(dataUrl) });
+      added++;
+    }
+    const fi = document.getElementById('frictionFile-' + inputId); if (fi) fi.value = ''; // allow re-picking the same file
+    renderAttachPreview(inputId);
+    if (added && !skipped) setAttachMsg(inputId, added + (added === 1 ? ' file ready to submit' : ' files ready to submit'), false);
+  }
+
+  function removeAttachment(inputId, idx) {
+    const b = pendingAttachments[inputId]; if (!b) return;
+    b.splice(idx, 1); renderAttachPreview(inputId);
+  }
+
+  function renderAttachPreview(inputId) {
+    const c = document.getElementById('frictionAttach-' + inputId);
+    if (!c) return;
+    const bucket = pendingAttachments[inputId] || [];
+    if (!bucket.length) { c.innerHTML = ''; c.classList.add('hidden'); return; }
+    c.classList.remove('hidden');
+    c.innerHTML = bucket.map((a, i) => {
+      const label = esc(a.name || 'attachment');
+      const inner = a.isImage
+        ? `<img src="${esc(a.dataUrl)}" alt="${label}">`
+        : `<span class="tts-file-chip">${esc((String(a.name || 'file').split('.').pop() || 'FILE').toUpperCase())}</span>`;
+      return `<div class="tts-thumb" title="${label}">${inner}<button type="button" class="tts-thumb-x" aria-label="Remove ${label}" onclick="removeAttachment('${inputId}',${i})">&times;</button></div>`;
+    }).join('');
+  }
+
+  // Build the attachment markup shown under a saved local-history entry.
+  function attachmentsHistoryHtml(atts) {
+    if (!atts || !atts.length) return '';
+    const items = atts.map(a => {
+      const label = esc(a.name || 'attachment');
+      if (a.dataUrl) {
+        const href = esc(a.dataUrl);
+        if (a.isImage) return `<a href="${href}" target="_blank" rel="noopener" class="tts-hist-thumb" title="${label}"><img src="${href}" alt="${label}"></a>`;
+        return `<a href="${href}" target="_blank" rel="noopener" download="${label}" class="tts-hist-thumb tts-file-chip" title="${label}">${esc((String(a.name || 'file').split('.').pop() || 'FILE').toUpperCase())}</a>`;
+      }
+      return `<span class="tts-hist-thumb tts-file-chip" title="${label}">&#128206;</span>`;
+    }).join('');
+    return `<div class="flex flex-wrap gap-1.5 mt-1.5">${items}</div>`;
+  }
+
+  // Render Drive links from the backend's space-separated Attachments column.
+  function backendAttachmentsHtml(field) {
+    const urls = String(field || '').split(/\s+/).map(s => s.trim()).filter(Boolean);
+    if (!urls.length) return '';
+    const links = urls.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener" class="text-brand-blue underline text-[11px]">Attachment ${i + 1}</a>`).join(' <span class="text-[#D1D5DB]">&middot;</span> ');
+    return `<div class="flex flex-wrap items-center gap-2 mt-1.5">${links}</div>`;
+  }
+
+  // Inject the attach button + preview + paste support into every friction logger.
+  function initAttachments() {
+    document.querySelectorAll('textarea.friction-log').forEach(ta => {
+      const m = (ta.id || '').match(/^frictionInput-(.+)$/);
+      if (!m || ta.dataset.attachReady) return;
+      ta.dataset.attachReady = '1';
+      const inputId = m[1];
+      pendingAttachments[inputId] = pendingAttachments[inputId] || [];
+
+      const preview = document.createElement('div');
+      preview.id = 'frictionAttach-' + inputId;
+      preview.className = 'tts-attach-preview mb-2 hidden';
+      ta.insertAdjacentElement('afterend', preview);
+
+      const bar = document.createElement('div');
+      bar.className = 'flex items-center gap-2 mb-2 flex-wrap';
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file'; fileInput.id = 'frictionFile-' + inputId; fileInput.multiple = true; fileInput.accept = ACCEPT_TYPES; fileInput.className = 'hidden';
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'tts-attach-btn';
+      btn.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>Add screenshot or file';
+      const msg = document.createElement('span');
+      msg.id = 'frictionAttachMsg-' + inputId; msg.className = 'text-[10px] text-[#6B7280]';
+      bar.appendChild(fileInput); bar.appendChild(btn); bar.appendChild(msg);
+      ta.insertAdjacentElement('afterend', bar);
+
+      btn.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', () => addFilesToPending(inputId, fileInput.files));
+      ta.addEventListener('paste', e => {
+        const items = (e.clipboardData && e.clipboardData.items) || [];
+        const files = [];
+        for (const it of items) { if (it.kind === 'file') { const f = it.getAsFile(); if (f) files.push(f); } }
+        if (files.length) { e.preventDefault(); addFilesToPending(inputId, files); }
+      });
+    });
+  }
+
   // ---- Friction Log: Submit to backend ----
   async function submitFriction(inputId, exercise, section) {
     const textarea = document.getElementById('frictionInput-' + inputId);
     const text = textarea.value.trim();
-    if (!text) return;
+    const atts = (pendingAttachments[inputId] || []).slice();
+    if (!text && !atts.length) return; // allow an attachment-only note
     if (!participant.name) { showIdentityModal(); return; }
 
     const statusEl = document.getElementById('frictionStatus-' + inputId);
@@ -1922,14 +2095,27 @@ Text STOP at any time to opt out</div></div>
     statusEl.className = 'text-[10px] text-[#D97706]';
 
     // Show locally immediately and persist (optimistic UI, survives reload)
-    addToLocalHistory(inputId, { participant: participant.name, group: participant.group, text, time: new Date().toLocaleTimeString() });
+    addToLocalHistory(inputId, { participant: participant.name, group: participant.group, text, time: new Date().toLocaleTimeString(),
+      attachments: atts.map(a => ({ name: a.name, type: a.type, isImage: a.isImage, dataUrl: a.dataUrl })) });
     textarea.value = '';
+    // Clear the staged attachments now that they're captured for this submit.
+    pendingAttachments[inputId] = [];
+    renderAttachPreview(inputId);
+    setAttachMsg(inputId, '');
     textarea.focus(); // return focus to the textarea after submit
 
-    const result = await sendData({ action: 'submitFriction', participant: participant.name, group: participant.group, exercise, section, text });
+    const result = await sendData({ action: 'submitFriction', participant: participant.name, group: participant.group, exercise, section, text,
+      attachments: atts.map(a => ({ name: a.name, type: a.type, dataUrl: a.dataUrl })) });
     if (result.queued) {
-      statusEl.textContent = 'Saved locally, will sync.';
-      statusEl.className = 'text-[10px] text-[#D97706]';
+      if (result.persisted === false) {
+        // The entry couldn't be stored offline (likely too large with attachments).
+        // Be honest: it's only on screen and will be lost on reload unless they reconnect.
+        statusEl.textContent = 'Showing here, but too large to store offline. Reconnect before reloading.';
+        statusEl.className = 'text-[10px] text-[#DC2626]';
+      } else {
+        statusEl.textContent = 'Saved locally, will sync.';
+        statusEl.className = 'text-[10px] text-[#D97706]';
+      }
     } else if (result.error) {
       statusEl.textContent = 'Saved locally.';
       statusEl.className = 'text-[10px] text-[#DC2626]';
@@ -1938,6 +2124,12 @@ Text STOP at any time to opt out</div></div>
       statusEl.textContent = 'Saved on this device';
       statusEl.className = 'text-[10px] text-[#6B7280]';
       setTimeout(() => { statusEl.textContent = ''; }, 2500);
+    } else if (atts.length && typeof result.attachments === 'number' && result.attachments < atts.length) {
+      // The note saved but some images didn't make it to Drive. Don't show a false "Submitted".
+      const missing = atts.length - result.attachments;
+      statusEl.textContent = 'Note saved, but ' + missing + ' of ' + atts.length + ' attachments did not upload.';
+      statusEl.className = 'text-[10px] text-[#DC2626]';
+      setTimeout(() => { statusEl.textContent = ''; }, 6000);
     } else {
       statusEl.textContent = 'Submitted';
       statusEl.className = 'text-[10px] text-brand-green';
@@ -1947,14 +2139,33 @@ Text STOP at any time to opt out</div></div>
 
   // ---- Local friction history (per-section, persisted) ----
   const LOCAL_FRICTION_KEY = 'tts_local_friction';
+  // In-memory mirror so the session view still renders even if a write fails
+  // (base64 attachments can push localStorage past its quota; the entry is still
+  // submitted to the backend, only the persisted local thumbnail is best-effort).
+  let _localFrictionCache = null;
   function getLocalFriction() {
-    try { return JSON.parse(localStorage.getItem(LOCAL_FRICTION_KEY)) || {}; } catch (e) { return {}; }
+    if (_localFrictionCache) return _localFrictionCache;
+    try { _localFrictionCache = JSON.parse(localStorage.getItem(LOCAL_FRICTION_KEY)) || {}; } catch (e) { _localFrictionCache = {}; }
+    return _localFrictionCache;
+  }
+  // Persist without the base64 dataUrls. They are huge and would blow the ~5MB
+  // localStorage budget; the in-memory cache keeps the thumbnail for this session,
+  // and after a reload the entry shows a paperclip chip (the real image is in Drive).
+  function stripAttachmentsForStorage(store) {
+    const out = {};
+    Object.keys(store).forEach(k => {
+      out[k] = (store[k] || []).map(e => {
+        if (!e.attachments || !e.attachments.length) return e;
+        return Object.assign({}, e, { attachments: e.attachments.map(a => ({ name: a.name, type: a.type, isImage: a.isImage })) });
+      });
+    });
+    return out;
   }
   function addToLocalHistory(inputId, entry) {
     const store = getLocalFriction();
     if (!store[inputId]) store[inputId] = [];
-    store[inputId].unshift(entry); // newest first
-    safeSetItem(LOCAL_FRICTION_KEY, JSON.stringify(store));
+    store[inputId].unshift(entry); // newest first (mutates the in-memory cache, which keeps dataUrls)
+    safeSetItem(LOCAL_FRICTION_KEY, JSON.stringify(stripAttachmentsForStorage(store)));
     renderLocalHistory(inputId);
   }
   function renderLocalHistory(inputId) {
@@ -1963,7 +2174,8 @@ Text STOP at any time to opt out</div></div>
     const entries = getLocalFriction()[inputId] || [];
     container.innerHTML = entries.map(entry => {
       const who = esc(entry.participant) + (entry.group ? ' (Group ' + esc(entry.group) + ')' : '');
-      return `<div class="p-2.5 bg-[#F9FAFB] rounded-lg"><p class="text-xs text-[#374151]">${esc(entry.text)}</p><p class="text-[10px] text-[#6B7280] mt-1">${who} at ${esc(entry.time)}</p></div>`;
+      const textHtml = entry.text ? `<p class="text-xs text-[#374151]">${esc(entry.text)}</p>` : '';
+      return `<div class="p-2.5 bg-[#F9FAFB] rounded-lg">${textHtml}${attachmentsHistoryHtml(entry.attachments)}<p class="text-[10px] text-[#6B7280] mt-1">${who} at ${esc(entry.time)}</p></div>`;
     }).join('');
     updateFrictionCount(inputId, entries.length);
   }
@@ -2216,7 +2428,7 @@ Text STOP at any time to opt out</div></div>
         curEx = exercise;
         raw += `<div class="mt-4 mb-2 first:mt-0 friction-print-group"><span class="text-xs font-bold text-brand-blue tracking-wider uppercase">${esc(exercise)}</span></div>`;
       }
-      raw += `<div class="p-3 bg-[#F9FAFB] rounded-lg friction-print-group"><div class="flex items-center gap-2 mb-1"><span class="text-[10px] text-[#6B7280]">${esc(e.Participant)}</span><span class="text-[10px] text-[#6B7280] ml-auto">${esc(e.Section)}</span></div><p class="text-sm text-[#374151]">${esc(e.Text)}</p></div>`;
+      raw += `<div class="p-3 bg-[#F9FAFB] rounded-lg friction-print-group"><div class="flex items-center gap-2 mb-1"><span class="text-[10px] text-[#6B7280]">${esc(e.Participant)}</span><span class="text-[10px] text-[#6B7280] ml-auto">${esc(e.Section)}</span></div><p class="text-sm text-[#374151]">${esc(e.Text)}</p>${backendAttachmentsHtml(e.Attachments)}</div>`;
     });
     rawEl.innerHTML = raw;
 
@@ -2293,7 +2505,10 @@ Text STOP at any time to opt out</div></div>
       let grp = (e.Group || '').trim();
       if (grp === '?') grp = '';
       const who = (grp ? 'Group ' + grp + ' | ' : '') + e.Participant;
-      text += '[' + (i + 1) + '] ' + who + '\n' + e.Text + '\n\n';
+      const atts = String(e.Attachments || '').split(/\s+/).map(s => s.trim()).filter(Boolean);
+      text += '[' + (i + 1) + '] ' + who + '\n' + e.Text + '\n';
+      if (atts.length) text += 'Attachments: ' + atts.join('  ') + '\n';
+      text += '\n';
     });
     return text;
   }
@@ -2371,6 +2586,7 @@ Text STOP at any time to opt out</div></div>
   // ---- Init ----
   initGate();
   initIdentity();
+  initAttachments();
   restoreAllLocalHistory();
   renderCommsLog();
   renderActionItems();
